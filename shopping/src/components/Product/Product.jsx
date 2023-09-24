@@ -13,15 +13,22 @@ import useStyles from "./styles";
 
 const Product = ({ product, onAddToCart }) => {
   const classes = useStyles();
+  console.log(product);
 
   const handleAddToCart = () => onAddToCart(product.id, 1);
+
+  // Check if product.media exists before accessing the 'source' property
+  const isMediaValid = product.media && product.media.source;
 
   return (
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={product.image}
-        title={product.name}
+        image={product.image.url}
+        style={{
+          height: 0, // Set height to 0 to allow the aspect ratio to be maintained
+          paddingTop: "56.25%", // 16:9 aspect ratio (change this value as needed)
+        }}
       />
       <CardContent>
         <div className={classes.cardContent}>
@@ -33,10 +40,10 @@ const Product = ({ product, onAddToCart }) => {
           </Typography>
         </div>
         <Typography
-          dangerouslySetInnerHTML={{ __html: product.description }}
           variant="body2"
           color="textSecondary"
-          component="p"
+          component="div"
+          dangerouslySetInnerHTML={{ __html: product.description }}
         />
       </CardContent>
       <CardActions disableSpacing className={classes.cardActions}>
