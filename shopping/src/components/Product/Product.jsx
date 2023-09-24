@@ -17,9 +17,6 @@ const Product = ({ product, onAddToCart }) => {
 
   const handleAddToCart = () => onAddToCart(product.id, 1);
 
-  // Check if product.media exists before accessing the 'source' property
-  const isMediaValid = product.media && product.media.source;
-
   return (
     <Card className={classes.root}>
       <CardMedia
