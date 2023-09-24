@@ -10,13 +10,19 @@ import {
   IconButton,
 } from "@material-ui/core";
 
-import useStyles from "../Products/styles";
+import useStyles from "./styles";
 
 import { AddShoppingCart } from "@material-ui/icons";
 
 const Product = ({ product }) => {
   //   used to call styling
   const classes = useStyles();
+
+  //   to check
+  console.log(product);
+
+  return <div>test</div>;
+
   return (
     <Card className={classes.root}>
       <CardMedia

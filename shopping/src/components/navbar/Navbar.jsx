@@ -24,7 +24,7 @@ const Navbar = () => {
               src={logo}
               alt="Shopping"
               height="25px"
-              className={classes.iamge}
+              className={classes.image}
             />
           </Typography>
           <div className={classes.grow} />
