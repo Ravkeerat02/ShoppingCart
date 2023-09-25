@@ -28,6 +28,8 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
         {cart.line_items.map((lineItem) => (
           <Grid item xs={12} sm={4} key={lineItem.id}>
             <CartItem
+              component={Link}
+              to="/checkout"
               item={lineItem}
               onUpdateCartQty={onUpdateCartQty}
               onRemoveFromCart={onRemoveFromCart}
