@@ -1,42 +1,47 @@
-import { useState } from "react";
+import React from "react";
+import { Button, Grid, Typography } from "@material-ui/core";
+import { useForm, FormProvider, Controller } from "react-hook-form";
+import FormInput from "../CustomTextField";
 
-// imports the packages
-import {
-  Paper,
-  Stepper,
-  Step,
-  StepLabel,
-  Typography,
-  CircularProgress,
-  Divider,
-  Button,
-} from "@material-ui/core";
-import useStyles from "./styles";
-const steps = ["Shipping address", "Payment details"];
+const AddressForm = () => {
+  const methods = useForm();
 
-const Checkout = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const classes = useStyles();
+  const onSubmit = (data) => {
+    console.log(data);
+    // You can perform form submission logic here.
+  };
+
   return (
-    <>
-      <div className={classes.toolabr} />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Typography variant="h4" align="center">
-            Checkout
-          </Typography>
-          {/* moves as you move */}
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((step) => (
-              <Step key={step}>
-                <StepLabel label={step}>{step}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Paper>
-      </main>
-    </>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Typography variant="h6" gutterBottom>
+          Shipping Address
+        </Typography>
+        <Grid container spacing={3}>
+          <FormInputField
+            name="firstName"
+            label="First Name"
+            control={methods.control}
+          />
+          {/* Add more FormInputField components for other fields */}
+        </Grid>
+        <Button type="submit" variant="contained" color="primary">
+          Submit
+        </Button>
+      </form>
+    </FormProvider>
   );
 };
 
-export default Checkout;
+const FormInputField = ({ name, label, control }) => (
+  <Grid item xs={12} sm={6}>
+    <Controller
+      name={name}
+      control={control}
+      defaultValue=""
+      render={({ field }) => <FormInput {...field} label={label} />}
+    />
+  </Grid>
+);
+
+export default AddressForm;
