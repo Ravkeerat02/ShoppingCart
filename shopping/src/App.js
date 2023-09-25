@@ -32,7 +32,7 @@ const App = () => {
     <div>
       {/* <Products products={products} onAddToCart={handleAddToCart} /> */}
       <Navbar totalItems={cart.total_items} />
-      <Cart cart={cart} onAddToCart={handleAddToCart} />
+      <Cart cart={cart} />
     </div>
   );
 };
