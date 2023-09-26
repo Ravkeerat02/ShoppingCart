@@ -23,12 +23,16 @@ const AddressForm = ({ checkoutToken, test }) => {
   const methods = useForm();
 
   const fetchShippingCountries = async (checkoutTokenId) => {
-    const { countries } = await commerce.services.localeListShippingCountries(
-      checkoutTokenId
-    );
+    try {
+      const { countries } = await commerce.services.localeListShippingCountries(
+        checkoutTokenId
+      );
 
-    setShippingCountries(countries);
-    setShippingCountry(Object.keys(countries)[0]);
+      setShippingCountries(countries);
+      setShippingCountry(Object.keys(countries)[0]);
+    } catch (error) {
+      console.error("Error fetching shipping countries:", error);
+    }
   };
 
   const fetchSubdivisions = async (countryCode) => {
