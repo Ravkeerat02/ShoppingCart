@@ -8,9 +8,39 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import Review from "./Review";
 
-const stripePromise = loadStripe();
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const PaymentForm = ({ checkoutToken, backStep }) => {
+  const handleSubmit = (event, elements, stripe) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+    const CardElement = elements.getElement(CardElement);
+    const {error , paymentMethod } = await stripe.createPaymentMethod({type: 'card', card: CardElement});
+
+    if(error){
+      console.log(error)
+    }else{
+      const orderData = {
+        list_items:checkoutToken.live.line_items,
+        custome:[firstName:shippingData.firstName, lastName:shippingData.lastName, email:shippingData.email],
+        shipping:{
+          name:'Primary',
+          street:shippingData.address1,
+          town_city:shippingData.city,
+          country_state:shippingData.shippingSubdivision,
+          postal_zip_code:shippingData.zip,
+          country:shippingData.shippingCountry,
+        }, 
+        fulfillment:{shipping_method:shippingData.shippingOption},
+        payment:{
+          gateway:'stripe',
+          stripe:{
+            payment_method:paymentMethod.id,
+          }
+        }
+      }
+    }
+  };
   return (
     <>
       <Review checkoutToken={checkoutToken} />
@@ -21,7 +51,7 @@ const PaymentForm = ({ checkoutToken, backStep }) => {
       <Elements stripe={stripePromise}>
         <ElementsConsumer>
           {(elements, stripe) => (
-            <form>
+            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
               <CardElement />
               <br />
               <br />
